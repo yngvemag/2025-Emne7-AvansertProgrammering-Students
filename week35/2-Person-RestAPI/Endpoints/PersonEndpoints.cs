@@ -34,5 +34,4 @@ public static class PersonEndpoints
         return Results.Ok(addedPerson);
     }
     
-    
 }
