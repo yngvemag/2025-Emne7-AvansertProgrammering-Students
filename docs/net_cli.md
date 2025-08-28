@@ -284,6 +284,9 @@ dotnet list package --outdated
 
 # Restore packages
 dotnet restore
+
+# Search packages
+dotnet package search Benchmark 
 ```
 
 ### Working with NuGet Configuration
