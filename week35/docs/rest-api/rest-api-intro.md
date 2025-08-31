@@ -86,14 +86,25 @@ For filtrering, sortering og paginering kan man bruke query-parametere:
 - `/employees?page=5&limit=10` – paginering  
 
 ---
+<div style="page-break-after: always;"></div>
 
 ## Idempotens
 
-En metode er **idempotent** hvis samme kall kan gjentas uten å endre resultatet:
-- **Idempotente metoder**: GET, PUT, DELETE  
-- **Ikke idempotent**: POST  
+| HTTP-metode | Safe (endrer ikke data) | Idempotent (samme sluttresultat) | Typisk bruk                        | Huskerregel (hverdagseksempel) |
+|-------------|--------------------------|----------------------------------|------------------------------------|--------------------------------|
+| GET         | ✅ Ja                   | ✅ Ja                             | Hente data                         | Som å lese en bok – du endrer ingenting ved å lese flere ganger |
+| PUT         | ❌ Nei                  | ✅ Ja                             | Opprette/erstatte en ressurs       | Som å stille inn en lysbryter til "på" – samme resultat uansett hvor mange ganger du gjør det |
+| DELETE      | ❌ Nei                  | ✅ Ja                             | Slette en ressurs                  | Som å tømme søpla – når den først er tom, blir den ikke mer tom om du prøver igjen |
+| POST        | ❌ Nei                  | ❌ Nei                            | Opprette ny ressurs / sende data   | Som å legge brev i en postkasse – hver gang du gjør det, havner et nytt brev i kassa |
+| PATCH       | ❌ Nei                  | ❌ Nei (ofte)                     | Delvis oppdatere en ressurs        | Som å male et strøk maling – hvert strøk endrer resultatet litt |
+
+👉 Kort huskeregel for idempotens:
+
+- Idempotent = lysbryter → resultatet blir det samme uansett hvor mange ganger du trykker den til "på".
+- Ikke idempotent = postkasse → hver gang du legger inn et brev, blir det flere brev.
 
 ---
+<div style="page-break-after: always;"></div>
 
 ## HATEOAS (Hypermedia As The Engine Of Application State)
 
