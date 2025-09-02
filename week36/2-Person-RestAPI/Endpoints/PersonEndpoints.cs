@@ -26,9 +26,14 @@ public static class PersonEndpoints
     
     // http://localhost:5000/persons?id=3
     private static async Task<IResult> GetPersonsAsync(
+        [FromServices] ILogger<Program> logger,
         [FromServices] IRepository<Person> repo,
         [FromQuery] long? id)
     {
+        // log if id is not null
+        if (id is not null)
+            logger.LogInformation("Getting person with id {Id}", id);
+        
         var persons = await repo.GetAllAsync();
         return id is null
             ? Results.Ok(persons)
@@ -39,11 +44,14 @@ public static class PersonEndpoints
         IRepository<Person> repo, 
         Person person)
     {
+        throw new Exception("OPS, we have an error!");
+        
         var addedPerson = await repo.AddAsync(person);
         if (addedPerson is null)
             return Results.BadRequest();
-        
+    
         return Results.Ok(addedPerson);
+        
     }
     
     private static async Task<IResult> UpdatePersonAsync(

@@ -5,11 +5,17 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <RootNamespace>PersonRestAPI</RootNamespace>
+    <UserSecretsId>e3eec4ea-11d9-4b83-8ad2-3e455271cdeb</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.7" />
+    <PackageReference Include="MySql.Data" Version="9.4.0" />
     <PackageReference Include="Scalar.AspNetCore" Version="2.7.0" />
+    <PackageReference Include="Serilog.AspNetCore" Version="9.0.0" />
+    <PackageReference Include="Serilog.Sinks.Console" Version="6.0.0" />
+    <PackageReference Include="Serilog.Sinks.File" Version="7.0.0" />
+    <PackageReference Include="Serilog.Sinks.MySQL" Version="5.0.0" />
   </ItemGroup>
 
 </Project>
