@@ -1,0 +1,6 @@
+@_2_Person_RestAPI_HostAddress = http://localhost:5117
+
+GET {{_2_Person_RestAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
