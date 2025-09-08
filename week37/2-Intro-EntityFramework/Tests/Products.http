@@ -1,0 +1,43 @@
+﻿@baseUrl = http://localhost:5068/api/v1/products
+
+### Get all products
+GET {{baseUrl}}/
+Accept: application/json
+
+### Get product by id
+GET {{baseUrl}}/1
+Accept: application/json
+
+### Post a new product
+POST {{baseUrl}}/
+Content-Type: application/json
+
+{
+  "name": "Laptop",
+  "price": 12999.99,
+  "stock": 5 
+}
+
+### 
+POST {{baseUrl}}/
+Content-Type: application/json
+
+{
+  "name": "Smartphone",
+  "price": 7999.50,
+  "stock": 15  
+}
+
+### Update a product
+PUT {{baseUrl}}/1
+Content-Type: application/json
+
+{
+  "name": "Laptop",
+  "price": 10999.99,
+  "stock": 9
+}
+
+### Delete a product
+DELETE {{baseUrl}}/2
+Accept: application/json
