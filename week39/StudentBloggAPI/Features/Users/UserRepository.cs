@@ -6,8 +6,7 @@ namespace StudentBloggAPI.Features.Users;
 
 public class UserRepository(
     StudentBloggDbContext dbContext, 
-    ILogger<UserRepository> logger) 
-    : IUserRepository
+    ILogger<UserRepository> logger) : IUserRepository
 {
     private readonly StudentBloggDbContext _dbContext = dbContext;
     private readonly ILogger<UserRepository> _logger = logger;

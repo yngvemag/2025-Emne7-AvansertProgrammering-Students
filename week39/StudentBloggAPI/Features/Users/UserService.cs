@@ -8,8 +8,7 @@ public class UserService(
     ILogger<UserService> logger,
     IMapper<UserDto, User> userMapper, 
     IMapper<UserRegistrationDto, User> userRegistrationMapper,
-    IUserRepository userRepository)
-    : IUserService
+    IUserRepository userRepository) : IUserService
 {
     private readonly IUserRepository _userRepository = userRepository;
     private readonly ILogger<UserService> _logger = logger;
