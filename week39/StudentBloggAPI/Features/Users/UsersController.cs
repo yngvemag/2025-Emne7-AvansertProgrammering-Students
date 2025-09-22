@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using StudentBloggAPI.Features.Users.Dtos;
 using StudentBloggAPI.Features.Users.Interfaces;
 
 namespace StudentBloggAPI.Features.Users;
@@ -17,5 +18,16 @@ public class UsersController(IUserService userService)
     {
         var users = await _userService.GetPagedAsync(pageNumber, pageSize);
         return Ok(users);
+    }
+    
+    [HttpPost("register")]
+    public async Task<ActionResult> RegisterUserAsync(
+        [FromBody] UserRegistrationDto userRegistrationDto)
+    {
+        UserDto? registeredUser = await _userService.RegisterAsync(userRegistrationDto);
+        
+        return registeredUser is null
+            ? BadRequest("Failed to register user")
+            : Ok(registeredUser);
     }
 }

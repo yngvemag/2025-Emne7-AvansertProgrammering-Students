@@ -1,4 +1,4 @@
-﻿namespace StudentBloggAPI.Features.Users;
+﻿namespace StudentBloggAPI.Features.Users.Dtos;
 
 public class UserDto
 {

@@ -3,15 +3,21 @@ using Scalar.AspNetCore;
 using StudentBloggAPI.Data;
 using StudentBloggAPI.Features.Common.Interfaces;
 using StudentBloggAPI.Features.Users;
+using StudentBloggAPI.Features.Users.Dtos;
 using StudentBloggAPI.Features.Users.Interfaces;
+using StudentBloggAPI.Features.Users.Mappers;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<IMapper<UserDto, User>, UserMapper>();
-        
+builder.Services
+    .AddScoped<IUserService, UserService>()
+    .AddScoped<IUserRepository, UserRepository>();
+
+builder.Services
+    .AddScoped<IMapper<UserDto, User>, UserMapper>()
+    .AddScoped<IMapper<UserRegistrationDto, User>, UserRegistrationMapper>();
+
 builder.Services.AddDbContext<StudentBloggDbContext>(options =>
 {
     options.UseMySql(
@@ -33,9 +39,9 @@ if (app.Environment.IsDevelopment())
     app.MapScalarApiReference();
 }
 
-app.UseHttpsRedirection();
-
-app.UseAuthorization();
+app
+    .UseHttpsRedirection()
+    .UseAuthorization();
 
 app.MapControllers();
 

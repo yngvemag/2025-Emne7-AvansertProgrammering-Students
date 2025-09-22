@@ -1,6 +1,7 @@
 ﻿using StudentBloggAPI.Features.Common.Interfaces;
+using StudentBloggAPI.Features.Users.Dtos;
 
-namespace StudentBloggAPI.Features.Users;
+namespace StudentBloggAPI.Features.Users.Mappers;
 
 public class UserMapper : IMapper<UserDto, User>
 {
