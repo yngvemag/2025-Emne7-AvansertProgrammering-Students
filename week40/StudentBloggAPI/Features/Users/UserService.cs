@@ -33,7 +33,7 @@ public class UserService(
         // MEN hvis vi har en admin-bruker, så kan den slette hvem som helst !!!
         if (!string.Equals(id.ToString(), _currentUser.UserId) && !_currentUser.IsAdmin)
         {   
-            throw new UnauthorizedAccessException();
+            throw new UnauthorizedAccessException("Can't delete user");
         }
         
         var user = await _userRepository.DeleteByIdAsync(id);
@@ -88,6 +88,7 @@ public class UserService(
 
     public async Task<User?> AuthenticateUserAsync(string userName, string password)
     {
+        // en liten svakhet er at vi henter alle brukere med samme brukernavn
         var users = (await
                 _userRepository.FindAsync(u => u.UserName == userName))
             .ToList();

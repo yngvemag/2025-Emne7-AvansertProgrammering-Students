@@ -14,6 +14,7 @@ public class StudentBloggBasicAuthentication(
     IUserService userService) : AuthenticationHandler<AuthenticationSchemeOptions>(options, logger, encoder)
 {
     private readonly IUserService _userService = userService;
+    private readonly ILogger<StudentBloggBasicAuthentication> _logger = logger.CreateLogger<StudentBloggBasicAuthentication>();
     
     protected override async Task<AuthenticateResult> HandleAuthenticateAsync()
     {
