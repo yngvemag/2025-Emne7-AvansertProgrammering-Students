@@ -8,12 +8,14 @@ public class UserService(
     ILogger<UserService> logger,
     IMapper<UserDto, User> userMapper, 
     IMapper<UserRegistrationDto, User> userRegistrationMapper,
-    IUserRepository userRepository) : IUserService
+    IUserRepository userRepository,
+    ICurrentUser currentUser) : IUserService
 {
     private readonly IUserRepository _userRepository = userRepository;
     private readonly ILogger<UserService> _logger = logger;
     private readonly IMapper<UserDto, User> _userMapper = userMapper;
     private readonly IMapper<UserRegistrationDto, User> _userRegistrationMapper = userRegistrationMapper;
+    private readonly ICurrentUser _currentUser = currentUser;
 
     public async Task<UserDto?> AddAsync(UserDto entity)
     {
@@ -27,7 +29,18 @@ public class UserService(
 
     public async Task<UserDto?> DeleteByIdAsync(Guid id)
     {
-        throw new NotImplementedException();
+        // Viktig å sjekke om innlogget bruker har rettigheter til å slette brukeren
+        // MEN hvis vi har en admin-bruker, så kan den slette hvem som helst !!!
+        if (!string.Equals(id.ToString(), _currentUser.UserId) && !_currentUser.IsAdmin)
+        {   
+            throw new UnauthorizedAccessException();
+        }
+        
+        var user = await _userRepository.DeleteByIdAsync(id);
+        return user is null
+            ? null
+            : _userMapper.MapToDto(user);
+
     }
 
     public async Task<UserDto?> UpdateAsync(Guid id, UserDto entity)
@@ -75,10 +88,10 @@ public class UserService(
 
     public async Task<User?> AuthenticateUserAsync(string userName, string password)
     {
-        var users = (await _userRepository
-            .FindAsync(u => u.UserName == userName))
+        var users = (await
+                _userRepository.FindAsync(u => u.UserName == userName))
             .ToList();
-
+        
         if (!users.Any())
             return null;
 

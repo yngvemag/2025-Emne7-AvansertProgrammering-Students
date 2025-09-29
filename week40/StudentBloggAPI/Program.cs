@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
 using StudentBloggAPI.Data;
@@ -6,8 +7,12 @@ using StudentBloggAPI.Features.Users;
 using StudentBloggAPI.Features.Users.Dtos;
 using StudentBloggAPI.Features.Users.Interfaces;
 using StudentBloggAPI.Features.Users.Mappers;
+using StudentBloggAPI.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<ICurrentUser, CurrentUser>();
 
 // Add services to the container.
 builder.Services
@@ -17,6 +22,9 @@ builder.Services
 builder.Services
     .AddScoped<IMapper<UserDto, User>, UserMapper>()
     .AddScoped<IMapper<UserRegistrationDto, User>, UserRegistrationMapper>();
+
+builder.Services.AddAuthentication("BasicAuthentication")
+    .AddScheme<AuthenticationSchemeOptions, StudentBloggBasicAuthentication>("BasicAuthentication", null);
 
 builder.Services.AddDbContext<StudentBloggDbContext>(options =>
 {
@@ -41,6 +49,7 @@ if (app.Environment.IsDevelopment())
 
 app
     .UseHttpsRedirection()
+    .UseAuthentication()
     .UseAuthorization();
 
 app.MapControllers();

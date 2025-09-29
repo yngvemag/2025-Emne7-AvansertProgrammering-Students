@@ -32,30 +32,27 @@ public class UserRepository(
 
     public async Task<User?> DeleteByIdAsync(Guid id)
     {
-        throw new NotImplementedException();
+        var user = await _dbContext.Users.FindAsync(id);
+        if (user == null) return null;
+        _dbContext.Users.Remove(user);
+        await _dbContext.SaveChangesAsync();
+        return user;
     }
 
     public async Task<IEnumerable<User>> GetPagedAsync(int pageNumber, int pageSize)
     {
-        await Task.Delay(10);
+        int skip = (pageNumber - 1) * pageSize;
         
-        List<User> users = new();
-        users.Add(
-            new User()
-            {
-                Id = Guid.NewGuid(),
-                FirstName = "John",
-                LastName = "Doe",
-                UserName = "johndoe",
-                Email = "john@mail.com",
-                HashedPassword = "søakjdføaslkdfjasøldfjk",
-                IsAdminUser = false,
-                CreatedAt = DateTime.UtcNow,
-                UpdatedAt = DateTime.UtcNow,
-            }
-        );
+        // få total count av users
+        int totalUsers = await _dbContext.Users.CountAsync();
         
-        return users;
+        if (totalUsers == 0) return [];
+        
+        return await _dbContext.Users
+            .OrderBy(u => u.Id)
+            .Skip(skip) // start
+            .Take(pageSize) // antall fra start
+            .ToListAsync();
     }
 
     public async Task<IEnumerable<User>> FindAsync(Expression<Func<User, bool>> predicate)
