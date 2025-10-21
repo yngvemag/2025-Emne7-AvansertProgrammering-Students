@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="StudentBloggAPI.UnitTests/StudentBloggAPI.UnitTests.csproj" />
+  <Project Path="StudentBloggAPI/StudentBloggAPI.csproj" />
+</Solution>
