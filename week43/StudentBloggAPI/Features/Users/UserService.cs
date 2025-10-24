@@ -56,7 +56,7 @@ public class UserService(
             throw new UnauthorizedAccessException("Can't update user");
         }
         
-        var updatedUser = await _userRepository.UpdateAsync(id, user);
+        var updatedUser = await _userRepository.UpdateAsync(id, _userMapper.MapToModel(entity));
         return updatedUser is null
             ? null
             : _userMapper.MapToDto(updatedUser);
