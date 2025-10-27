@@ -20,6 +20,8 @@
     </PackageReference>
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="9.0.0" />
     <PackageReference Include="Scalar.AspNetCore" Version="2.8.3" />
-  </ItemGroup>
 
+    <!-- InternalsVisibleTo Include="StudentBloggAPI.IntegrationTests"/-->
+  </ItemGroup>  
+  
 </Project>
