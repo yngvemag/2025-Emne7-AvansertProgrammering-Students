@@ -5,7 +5,7 @@ using StudentBloggAPI.Features.Users.Interfaces;
 
 namespace StudentBloggAPI.Features.Users;
 
-[Authorize]
+[AllowAnonymous]
 [ApiController]
 [Route("api/v1/[controller]")]
 public class UsersController(ILogger<UsersController> logger, IUserService userService) 

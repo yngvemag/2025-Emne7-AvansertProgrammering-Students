@@ -38,6 +38,21 @@ builder.Services.AddControllers();
 
 builder.Services.AddOpenApi();
 
+// CORS for Blazor WASM dev origins
+const string WasmDevCors = "WasmDevCors";
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(WasmDevCors, policy =>
+        policy.WithOrigins(
+                "http://localhost:5041", // Blazor WASM dev server ports
+                "https://localhost:7041"
+            )
+            .AllowAnyMethod()
+            .AllowAnyHeader()
+        // .AllowCredentials() // Enable if you later send cookies/authorization headers cross-site
+    );
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -48,6 +63,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app
+    .UseCors(WasmDevCors)
     .UseHttpsRedirection()
     .UseAuthentication()
     .UseAuthorization();
