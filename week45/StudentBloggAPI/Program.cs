@@ -8,6 +8,11 @@ using StudentBloggAPI.Features.Users.Dtos;
 using StudentBloggAPI.Features.Users.Interfaces;
 using StudentBloggAPI.Features.Users.Mappers;
 using StudentBloggAPI.Middleware;
+using FluentValidation;
+using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
+using StudentBloggAPI.Health;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -34,6 +39,14 @@ builder.Services.AddDbContext<StudentBloggDbContext>(options =>
     );
 });
 
+// Register fluent validation
+builder.Services
+    .AddValidatorsFromAssemblyContaining<Program>()
+    .AddFluentValidationAutoValidation(config => config.DisableDataAnnotationsValidation = true);
+
+// legger til health check
+builder.Services.AddHealthChecks().AddCheck<DatabaseHealthCheck>("database");
+
 builder.Services.AddControllers();
 
 builder.Services.AddOpenApi();
@@ -55,6 +68,18 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
+// app.MapHealthChecks("/healthz", new HealthCheckOptions
+// {
+//     Predicate = r => r.Tags.Contains("live"),
+//     ResultStatusCodes =
+//     {
+//         [HealthStatus.Healthy] = StatusCodes.Status200OK,
+//         [HealthStatus.Degraded] = StatusCodes.Status200OK,
+//         [HealthStatus.Unhealthy] = StatusCodes.Status200OK
+//     }
+// });
+
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -64,6 +89,7 @@ if (app.Environment.IsDevelopment())
 
 app
     .UseCors(WasmDevCors)
+    .UseHealthChecks("/healthz")
     .UseHttpsRedirection()
     .UseAuthentication()
     .UseAuthorization();

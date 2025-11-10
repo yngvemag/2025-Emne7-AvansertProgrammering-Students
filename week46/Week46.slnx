@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="OutputCachingBasics/OutputCachingBasics.csproj" />
+  <Project Path="RateLimitingBasics/RateLimitingBasics.csproj" />
+  <Project Path="WeatherApiResilience/WeatherApiResilience.csproj" />
+</Solution>
