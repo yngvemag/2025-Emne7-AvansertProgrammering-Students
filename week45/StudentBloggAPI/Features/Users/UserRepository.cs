@@ -26,10 +26,10 @@ public class UserRepository(
         var user = await _dbContext.Users.FindAsync(id);
         if (user == null) return null;
         
-        user.FirstName = string.IsNullOrEmpty(user.FirstName) ? entity.FirstName: user.FirstName;
-        user.LastName = string.IsNullOrEmpty(user.LastName) ? entity.LastName: user.LastName;
-        user.Email = string.IsNullOrEmpty(user.Email) ? entity.Email: user.Email;
-        user.UserName = string.IsNullOrEmpty(user.UserName) ? entity.UserName: user.UserName;
+        user.FirstName = string.IsNullOrEmpty(entity.FirstName) ? user.FirstName: entity.FirstName;
+        user.LastName = string.IsNullOrEmpty(entity.LastName) ? user.LastName: entity.LastName;
+        user.Email = string.IsNullOrEmpty(entity.Email) ? user.Email: entity.Email;
+        user.UserName = string.IsNullOrEmpty(entity.UserName) ? user.UserName: entity.UserName;
         user.UpdatedAt = DateTime.UtcNow;
         
         // oppdater user
